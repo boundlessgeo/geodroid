@@ -7,12 +7,13 @@ import org.jeo.android.geopkg.GeoPackage;
 import org.jeo.android.mbtiles.MBTiles;
 import org.jeo.carto.CartoCSS;
 import org.jeo.csv.CSV;
-import org.jeo.data.DataRef;
-import org.jeo.data.DirectoryRegistry;
+import org.jeo.data.DataRepository;
+import org.jeo.data.DirectoryRepository;
 import org.jeo.data.DriverRegistry;
-import org.jeo.data.JSONRegistry;
-import org.jeo.data.Registry;
+import org.jeo.data.JSONRepository;
 import org.jeo.data.StaticDriverRegistry;
+import org.jeo.data.Workspace;
+import org.jeo.data.WorkspaceHandle;
 import org.jeo.data.mem.Memory;
 import org.jeo.geojson.GeoJSON;
 
@@ -31,13 +32,13 @@ import android.os.Environment;
  * </p>
  * @author Justin Deoliveira, OpenGeo
  */
-public class GeoDataRegistry implements Registry {
+public class GeoDataRepository implements DataRepository {
 
     static DriverRegistry DRIVERS = 
         new StaticDriverRegistry(new GeoPackage(), new MBTiles(), new GeoJSON(), new CSV(), 
             new Memory(), new CartoCSS());
 
-    Registry delegate;
+    DataRepository delegate;
 
     /**
      * Returns the GeoData directory handle.
@@ -46,15 +47,15 @@ public class GeoDataRegistry implements Registry {
         return new File(Environment.getExternalStorageDirectory(), "Geodata");
     }
 
-    public GeoDataRegistry() {
-        this(null); 
+    public GeoDataRepository() {
+        this(DRIVERS); 
     }
 
-    public GeoDataRegistry(DriverRegistry drivers) {
+    public GeoDataRepository(DriverRegistry drivers) {
         this(null, drivers);
     }
 
-    public GeoDataRegistry(File dir, DriverRegistry drivers) {
+    public GeoDataRepository(File dir, DriverRegistry drivers) {
         if (dir == null) {
             dir = directory();
         }
@@ -69,20 +70,20 @@ public class GeoDataRegistry implements Registry {
 
         File index = new File(dir, "index.json");
         if (index.exists()) {
-            delegate = new JSONRegistry(index, DRIVERS);
+            delegate = new JSONRepository(index, DRIVERS);
         }
         else {
-            delegate = new DirectoryRegistry(dir, DRIVERS);
+            delegate = new DirectoryRepository(dir, DRIVERS);
         }
     }
 
     @Override
-    public Iterable<DataRef<?>> list() throws IOException {
+    public Iterable<WorkspaceHandle> list() throws IOException {
         return delegate.list();
     }
 
     @Override
-    public Object get(String name) throws IOException {
+    public Workspace get(String name) throws IOException {
         return delegate.get(name);
     }
 

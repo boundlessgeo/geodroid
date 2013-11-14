@@ -1,6 +1,6 @@
 package org.geodroid.app;
 
-import org.jeo.data.Registry;
+import org.jeo.data.DataRepository;
 
 import android.app.Activity;
 import android.app.Application;
@@ -31,8 +31,8 @@ public class GeoApplication extends Application {
         throw new IllegalStateException("Application object is not a GeoApplication");
     }
 
-    public Registry createDataRegistry() {
-        return new GeoDataRegistry();
+    public DataRepository createDataRepository() {
+        return new GeoDataRepository();
     }
 
 }
