@@ -33,6 +33,11 @@
     </dependency>
     <dependency>
       <groupId>org.jeo</groupId>
+      <artifactId>jeo-gdal</artifactId>
+      <version>${jeo.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jeo</groupId>
       <artifactId>jeo-guava</artifactId>
       <version>${jeo.version}</version>
     </dependency>

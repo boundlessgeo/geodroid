@@ -16,6 +16,7 @@ import org.jeo.data.Workspace;
 import org.jeo.data.WorkspaceHandle;
 import org.jeo.data.mem.Memory;
 import org.jeo.geojson.GeoJSON;
+import org.jeo.ogr.Shapefile;
 
 import android.os.Environment;
 
@@ -36,7 +37,7 @@ public class GeoDataRepository implements DataRepository {
 
     static DriverRegistry DRIVERS = 
         new StaticDriverRegistry(new GeoPackage(), new MBTiles(), new GeoJSON(), new CSV(), 
-            new Memory(), new CartoCSS());
+            new Memory(), new CartoCSS(), new Shapefile());
 
     DataRepository delegate;
 
