@@ -10,6 +10,7 @@ import org.jeo.csv.CSV;
 import org.jeo.data.DataRepository;
 import org.jeo.data.DirectoryRepository;
 import org.jeo.data.DriverRegistry;
+import org.jeo.data.Handle;
 import org.jeo.data.JSONRepository;
 import org.jeo.data.StaticDriverRegistry;
 import org.jeo.data.Workspace;
@@ -78,12 +79,12 @@ public class GeoDataRepository implements DataRepository {
     }
 
     @Override
-    public Iterable<WorkspaceHandle> list() throws IOException {
+    public Iterable<Handle<?>> list() throws IOException {
         return delegate.list();
     }
 
     @Override
-    public Workspace get(String name) throws IOException {
+    public Object get(String name) throws IOException {
         return delegate.get(name);
     }
 
