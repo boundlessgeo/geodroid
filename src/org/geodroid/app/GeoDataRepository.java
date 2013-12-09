@@ -13,15 +13,15 @@ import org.jeo.data.DriverRegistry;
 import org.jeo.data.Handle;
 import org.jeo.data.JSONRepository;
 import org.jeo.data.StaticDriverRegistry;
-import org.jeo.data.Workspace;
-import org.jeo.data.WorkspaceHandle;
 import org.jeo.data.mem.Memory;
 import org.jeo.geojson.GeoJSON;
 
 import android.os.Environment;
+import org.jeo.data.DataRepositoryView;
+import org.jeo.filter.Filter;
 
 /**
- * Data registry that exposes data from a directory.
+ * Create a DataRepositoryView that exposes data from a directory.
  * <p>
  * If not overridden by the user the default directory is named "GeoData" on the root of the SDCard
  * of the device, obtained from {@link Environment#getExternalStorageDirectory()}. 
@@ -33,13 +33,7 @@ import android.os.Environment;
  * </p>
  * @author Justin Deoliveira, OpenGeo
  */
-public class GeoDataRepository implements DataRepository {
-
-    static DriverRegistry DRIVERS = 
-        new StaticDriverRegistry(new GeoPackage(), new MBTiles(), new GeoJSON(), new CSV(), 
-            new Memory(), new CartoCSS());
-
-    DataRepository delegate;
+public class GeoDataRepository {
 
     /**
      * Returns the GeoData directory handle.
@@ -48,21 +42,22 @@ public class GeoDataRepository implements DataRepository {
         return new File(Environment.getExternalStorageDirectory(), "Geodata");
     }
 
-    public GeoDataRepository() {
-        this(DRIVERS); 
+    public static DataRepositoryView create() {
+        return create(null, null);
     }
 
-    public GeoDataRepository(DriverRegistry drivers) {
-        this(null, drivers);
+    public static DataRepositoryView create(DriverRegistry drivers) {
+        return create(null, drivers);
     }
 
-    public GeoDataRepository(File dir, DriverRegistry drivers) {
+    public static DataRepositoryView create(File dir, DriverRegistry drivers) {
         if (dir == null) {
             dir = directory();
         }
 
         if (drivers == null) {
-            drivers = DRIVERS;
+            drivers = new StaticDriverRegistry(new GeoPackage(), new MBTiles(),
+                new GeoJSON(), new CSV(), new Memory(), new CartoCSS());
         }
 
         if (!dir.isDirectory()) {
@@ -70,26 +65,15 @@ public class GeoDataRepository implements DataRepository {
         }
 
         File index = new File(dir, "index.json");
+        DataRepository repo;
         if (index.exists()) {
-            delegate = new JSONRepository(index, DRIVERS);
+            repo = new JSONRepository(index, drivers);
         }
         else {
-            delegate = new DirectoryRepository(dir, DRIVERS);
+            repo = new DirectoryRepository(dir, drivers);
         }
+
+        return new DataRepositoryView(repo);
     }
 
-    @Override
-    public Iterable<Handle<?>> list() throws IOException {
-        return delegate.list();
-    }
-
-    @Override
-    public Object get(String name) throws IOException {
-        return delegate.get(name);
-    }
-
-    @Override
-    public void close() {
-        delegate.close();
-    }
 }
