@@ -1,16 +1,15 @@
 package org.geodroid.app;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.jeo.android.geopkg.GeoPackage;
 import org.jeo.android.mbtiles.MBTiles;
 import org.jeo.carto.CartoCSS;
 import org.jeo.csv.CSV;
 import org.jeo.data.DataRepository;
+import org.jeo.data.DataRepositoryView;
 import org.jeo.data.DirectoryRepository;
 import org.jeo.data.DriverRegistry;
-import org.jeo.data.Handle;
 import org.jeo.data.JSONRepository;
 import org.jeo.data.StaticDriverRegistry;
 import org.jeo.data.mem.Memory;
@@ -18,8 +17,6 @@ import org.jeo.geojson.GeoJSON;
 import org.jeo.ogr.Shapefile;
 
 import android.os.Environment;
-import org.jeo.data.DataRepositoryView;
-import org.jeo.filter.Filter;
 
 /**
  * Create a DataRepositoryView that exposes data from a directory.
