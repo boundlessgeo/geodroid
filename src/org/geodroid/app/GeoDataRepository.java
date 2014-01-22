@@ -55,7 +55,7 @@ public class GeoDataRepository {
 
         if (drivers == null) {
             drivers = new StaticDriverRegistry(new GeoPackage(), new MBTiles(),
-                new GeoJSON(), new CSV(), new Memory(), new CartoCSS());
+                new GeoJSON(), new CSV(), new Shapefile(), new Memory(), new CartoCSS());
         }
 
         if (!dir.isDirectory()) {
