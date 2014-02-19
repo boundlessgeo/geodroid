@@ -13,6 +13,7 @@ import org.jeo.data.DriverRegistry;
 import org.jeo.data.JSONRepository;
 import org.jeo.data.StaticDriverRegistry;
 import org.jeo.data.mem.Memory;
+import org.jeo.geogit.GeoGit;
 import org.jeo.geojson.GeoJSON;
 import org.jeo.ogr.Shapefile;
 
@@ -55,7 +56,7 @@ public class GeoDataRepository {
 
         if (drivers == null) {
             drivers = new StaticDriverRegistry(new GeoPackage(), new MBTiles(),
-                new GeoJSON(), new CSV(), new Shapefile(), new Memory(), new CartoCSS());
+                new GeoJSON(), new CSV(), new Shapefile(), new GeoGit(), new Memory(), new CartoCSS());
         }
 
         if (!dir.isDirectory()) {

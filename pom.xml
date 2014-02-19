@@ -38,6 +38,16 @@
     </dependency>
     <dependency>
       <groupId>org.jeo</groupId>
+      <artifactId>jeo-geogit</artifactId>
+      <version>${jeo.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.geogit</groupId>
+      <artifactId>geogit-sqlite-android</artifactId>
+      <version>${geogit.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jeo</groupId>
       <artifactId>jeo-guava</artifactId>
       <version>${jeo.version}</version>
     </dependency>
@@ -67,7 +77,7 @@
         <configuration>
           <outputDirectory>${basedir}/libs</outputDirectory>
           <excludeScope>provided</excludeScope>
-          <excludeArtifactIds>slf4j-api,slf4j-jdk14,hamcrest-core,junit</excludeArtifactIds>
+          <excludeArtifactIds>slf4j-api,slf4j-jdk14,hamcrest-core,junit,geogit-sqlite-xerial,sqlite-jdbc</excludeArtifactIds>
         </configuration>
         <executions>
           <execution>
@@ -155,6 +165,7 @@
 
   <properties>
     <jeo.version>0-SNAPSHOT</jeo.version>
+    <geogit.version>0.7-SNAPSHOT</geogit.version>
     <build.mode>debug</build.mode>
   </properties>
 
