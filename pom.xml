@@ -38,16 +38,6 @@
     </dependency>
     <dependency>
       <groupId>org.jeo</groupId>
-      <artifactId>jeo-geogit</artifactId>
-      <version>${jeo.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.geogit</groupId>
-      <artifactId>geogit-sqlite-android</artifactId>
-      <version>${geogit.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jeo</groupId>
       <artifactId>jeo-guava</artifactId>
       <version>${jeo.version}</version>
     </dependency>

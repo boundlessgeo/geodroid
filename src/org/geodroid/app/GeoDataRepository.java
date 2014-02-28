@@ -3,6 +3,7 @@ package org.geodroid.app;
 import java.io.File;
 
 import org.jeo.android.geopkg.GeoPackage;
+import org.jeo.android.geogit.GeoGit;
 import org.jeo.android.mbtiles.MBTiles;
 import org.jeo.carto.CartoCSS;
 import org.jeo.csv.CSV;
@@ -13,7 +14,6 @@ import org.jeo.data.DriverRegistry;
 import org.jeo.data.JSONRepository;
 import org.jeo.data.StaticDriverRegistry;
 import org.jeo.data.mem.Memory;
-import org.jeo.geogit.GeoGit;
 import org.jeo.geojson.GeoJSON;
 import org.jeo.ogr.Shapefile;
 
