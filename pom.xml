@@ -154,8 +154,8 @@
   </profiles>
 
   <properties>
-    <jeo.version>0-SNAPSHOT</jeo.version>
-    <geogit.version>0.7-SNAPSHOT</geogit.version>
+    <jeo.version>0.3-gga</jeo.version>
+    <geogit.version>0.8-android-m1</geogit.version>
     <build.mode>debug</build.mode>
   </properties>
 
