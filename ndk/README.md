@@ -100,7 +100,24 @@ The resulting library should reside in `../libs/armeabi/libproj.so`.
         cd swig
         make
 
-1. Change 
+1. Change to the `java` directory. Update the `java.opt` file accordingly for the Java environment.
+
+1. Apply the following patch and make:
+
+        patch -p1 < ../../../ColorTable.java.patch
+        make
+
+1. Copy the C/C++ wrappers to the `jni` directory:
+
+        cp *_wrap.cpp gdalconst_wrap.c ../../../
+        mkdir ../../../../jniwrap
+        cp -R org ../../../../jniwrap
+
+1. Change back to the `jni` directory and build:
+
+        cd ../../../
+        ndk-build
+
 
 ### References
 
