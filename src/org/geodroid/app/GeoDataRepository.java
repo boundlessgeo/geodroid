@@ -2,6 +2,7 @@ package org.geodroid.app;
 
 import java.io.File;
 
+import android.util.Log;
 import org.jeo.android.geopkg.GeoPackage;
 import org.jeo.android.mbtiles.MBTiles;
 import org.jeo.carto.CartoCSS;
@@ -33,6 +34,16 @@ import android.os.Environment;
  * @author Justin Deoliveira, OpenGeo
  */
 public class GeoDataRepository {
+
+    static {
+        // explicitly load proj library so gdal/ogr can do reprojection
+        try {
+            System.loadLibrary("proj");
+        }
+        catch(Throwable t) {
+            Log.w("Geodroid", "Unable to load proj library, reprojection through GDAL/OGR will not function", t);
+        }
+    }
 
     /**
      * Returns the GeoData directory handle.
