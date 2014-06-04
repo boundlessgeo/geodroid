@@ -1,0 +1,66 @@
+--- proj/src/pj_open_lib.c	2012-02-20 18:11:24.000000000 -0700
++++ proj_patched/src/pj_open_lib.c	2014-06-04 10:03:12.000000000 -0600
+@@ -35,6 +35,9 @@
+ #include <stdio.h>
+ #include <string.h>
+ #include <errno.h>
++#ifdef __ANDROID__
++#include <android/log.h>
++#endif
+ 
+ PJ_CVSID("$Id: pj_open_lib.c 2130 2011-12-15 01:20:23Z warmerdam $");
+ 
+@@ -90,7 +93,7 @@
+             strcpy(search_path[i], path[i]);
+         }
+     }
+-        
++
+     path_count = count;
+ }
+ 
+@@ -126,7 +129,7 @@
+ 
+     /* or fixed path: /name, ./name or ../name */
+     else if (strchr(dir_chars,*name)
+-             || (*name == '.' && strchr(dir_chars,name[1])) 
++             || (*name == '.' && strchr(dir_chars,name[1]))
+              || (!strncmp(name, "..", 2) && strchr(dir_chars,name[2]))
+              || (name[1] == ':' && strchr(dir_chars,name[2])) )
+         sysname = name;
+@@ -139,12 +142,25 @@
+     else if ((sysname = getenv("PROJ_LIB")) || (sysname = proj_lib_name)) {
+         (void)strcpy(fname, sysname);
+         fname[n = strlen(fname)] = DIR_CHAR;
+-        fname[++n] = '\0';
++#ifdef __ANDROID__
++    /* hack to enable reading resouces based on http://blog.bigpixel.ro/2010/04/ndk-and-resource-files-on-android/ renamed to libepsg.so*/
++        (void)strcpy(fname+n, "lib");
++        n += 3;
++#endif
+         (void)strcpy(fname+n, name);
++
++    /*    fname[++n] = '\0'; */
++#ifdef __ANDROID__
++ 		(void)strcat(fname,".so");
++#endif
++/*        (void)strcpy(fname+n, name);*/
+         sysname = fname;
+     } else /* just try it bare bones */
+         sysname = name;
+ 
++#ifdef __ANDROID__
++    __android_log_write(ANDROID_LOG_INFO,"Proj4",sysname);
++#endif
+     if ((fid = fopen(sysname, mode)) != NULL)
+         errno = 0;
+ 
+@@ -164,7 +180,7 @@
+     if( ctx->last_errno == 0 && errno != 0 )
+         pj_ctx_set_errno( ctx, errno );
+ 
+-    pj_log( ctx, PJ_LOG_DEBUG_MAJOR, 
++    pj_log( ctx, PJ_LOG_DEBUG_MAJOR,
+             "pj_open_lib(%s): call fopen(%s) - %s\n",
+             name, sysname,
+             fid == NULL ? "failed" : "succeeded" );

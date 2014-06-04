@@ -1,0 +1,11 @@
+--- gdal/port/cpl_config.h	2014-06-04 11:24:00.000000000 -0600
++++ gdal_patched/port/cpl_config.h	2014-06-04 11:25:16.000000000 -0600
+@@ -2,7 +2,7 @@
+ /* port/cpl_config.h.in.  Generated from configure.in by autoheader.  */
+ 
+ /* Define if you want to use pthreads based multiprocessing support */
+-/* #undef CPL_MULTIPROC_PTHREAD */
++#define CPL_MULTIPROC_PTHREAD 1 
+ 
+ /* Define to 1 if you have the `PTHREAD_MUTEX_RECURSIVE' constant. */
+ #define HAVE_PTHREAD_MUTEX_RECURSIVE 1

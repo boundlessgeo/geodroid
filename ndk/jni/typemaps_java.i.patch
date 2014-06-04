@@ -1,0 +1,55 @@
+--- gdal/swig/include/java/typemaps_java.i	2012-10-08 18:58:28.000000000 -0600
++++ gdal_patched/swig/include/java/typemaps_java.i	2014-06-04 11:27:11.000000000 -0600
+@@ -114,40 +114,25 @@
+ %typemap(in) (GDALColorEntry *) (GDALColorEntry tmp) {
+   /* %typemap(in) (GDALColorEntry *) (GDALColorEntry tmp) */
+   $1 = NULL;
+-  if ($input == NULL)
+-  {
+-      SWIG_JavaException(jenv, SWIG_ValueError, "Received a NULL pointer.");
+-      return $null;
+-  }
+-  float *colorptr = 0;
+-  const jclass Color = jenv->FindClass("java/awt/Color");
+-  const jmethodID colors = jenv->GetMethodID(Color, "getRGBComponents",
+-    "([F)[F");
+-
+-  jfloatArray colorArr = jenv->NewFloatArray(4);
+-  colorArr = (jfloatArray)jenv->CallObjectMethod($input, colors, colorArr); 
+-
+-  colorptr = (float *)jenv->GetFloatArrayElements(colorArr, 0);
+-  tmp.c1 = (short)(colorptr[0] * 255);
+-  tmp.c2 = (short)(colorptr[1] * 255);
+-  tmp.c3 = (short)(colorptr[2] * 255);
+-  tmp.c4 = (short)(colorptr[3] * 255);
+-  /*printf( "  %d, %d, %d, %d\n",
+-                    tmp.c1, tmp.c2, tmp.c3, tmp.c4 );*/
++
++  tmp.c4 = ($input >> 24) & 0xff;
++  tmp.c1 = ($input >> 16) & 0xff;
++  tmp.c2 = ($input >> 8) & 0xff;
++  tmp.c3 = ($input >> 0) & 0xff;
++  printf( "  %d, %d, %d, %d\n",
++                    tmp.c1, tmp.c2, tmp.c3, tmp.c4 );
+   $1 = &tmp;
+ }
+ 
+ %typemap(out) (GDALColorEntry *) {
+   /* %typemap(out) (GDALColorEntry *) */
+-  const jclass Color = jenv->FindClass("java/awt/Color");
+-  const jmethodID ccon = jenv->GetMethodID(Color, "<init>",
+-    "(IIII)V");
+-  $result = jenv->NewObject(Color, ccon, $1->c1, $1->c2, $1->c3, $1->c4);
++ /* Android Color is int = (alpha << 24) | (red << 16) | (green << 8) | blue */
++  $result = ($1->c4 << 24) | ($1->c1 << 16) | ($1->c2 << 8) | $1->c3;
+ }
+ 
+-%typemap(jni) (GDALColorEntry *) "jobject"
+-%typemap(jtype) (GDALColorEntry *) "java.awt.Color"
+-%typemap(jstype) (GDALColorEntry *) "java.awt.Color"
++%typemap(jni) (GDALColorEntry *) "jint"
++%typemap(jtype) (GDALColorEntry *) "int"
++%typemap(jstype) (GDALColorEntry *) "int"
+ %typemap(javain) (GDALColorEntry *) "$javainput"
+ %typemap(javaout) (GDALColorEntry *) {
+     return $jnicall;

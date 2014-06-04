@@ -1,0 +1,29 @@
+--- java/org/gdal/gdal/ColorTable.java	2014-06-04 11:40:45.000000000 -0600
++++ java_patched/org/gdal/gdal/ColorTable.java	2014-06-04 11:47:19.000000000 -0600
+@@ -10,7 +10,6 @@
+ 
+ /* imports for getIndexColorModel */
+ import java.awt.image.IndexColorModel;
+-import java.awt.Color;
+ 
+ public class ColorTable implements Cloneable {
+   private long swigCPtr;
+@@ -64,13 +63,13 @@
+     int zeroAlphas = 0;
+     int lastAlphaIndex = -1;
+ 
+-    Color entry = null;
++    int entry = 0;
+     for(int i = 0; i < size; i++) {
+       entry = GetColorEntry(i);
+-      reds[i] = (byte)(entry.getRed()&0xff);
+-      greens[i] = (byte)(entry.getGreen()&0xff);
+-      blues[i] = (byte)(entry.getBlue()&0xff);
+-      byte alpha = (byte)(entry.getAlpha()&0xff);
++      reds[i] = (byte)((entry >> 24) & 0xff);
++      greens[i] = (byte)((entry >> 16) & 0xff);
++      blues[i] = (byte)((entry >> 8) & 0xff);
++      byte alpha = (byte)((entry) & 0xff);
+       if (alpha == 255) 
+           noAlphas ++;
+       else{
