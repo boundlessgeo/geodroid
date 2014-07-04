@@ -160,7 +160,7 @@
   </profiles>
 
   <properties>
-    <jeo.version>0-SNAPSHOT</jeo.version>
+    <jeo.version>0.4</jeo.version>
     <build.mode>debug</build.mode>
   </properties>
 
