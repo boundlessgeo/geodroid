@@ -1,6 +1,6 @@
 # Geodroid Native Libaries
 
-This document describes how to build the native libaries for Geodroid.
+This document describes how to build the native libraries for Geodroid.
 
 ## Pre-requisites
 
@@ -13,11 +13,11 @@ This document describes how to build the native libaries for Geodroid.
 1. Create a toolchain for the target android platform. For example:
 
         $NDK_ROOT/build/tools/make-standalone-toolchain.sh --platform=android-18  \
-            --install-dir=/opt/android/android-18/toolchain
+            --install-dir=/opt/android/android-18/toolchain/arm
 
 1. Add the toolchain `bin` directory to the `PATH`:
 
-        export PATH=/opt/android/android-18/toolchain/bin:$PATH
+        export PATH=/opt/android/android-18/toolchain/arm/bin:$PATH
 
 ## Proj
 
@@ -40,7 +40,7 @@ This document describes how to build the native libaries for Geodroid.
         patch -p1 < ../pj_open_lib.c.patch
         patch -p2 < ../pj_init.c.patch
 
- 1. Configure:
+1. Configure:
 
         ./configure --host=arm-linux-eabi  --with-jni
 
@@ -123,6 +123,31 @@ The resulting library should reside in `../libs/armeabi/libproj.so`.
 
 * https://github.com/nutiteq/gdal/wiki/AndroidHowto
 * http://trac.osgeo.org/gdal/wiki/BuildingForAndroid
+
+## Building for x86
+
+In order for the native libraries to be used on most Android emulators or on 
+an x86 powered phone the libs must also be compiled for that architecture. 
+
+1. Create a new toolchain and add it to the `PATH`:
+
+        $NDK_ROOT/build/tools/make-standalone-toolchain.sh --arch=x86
+            --platform=android-18 --install-dir=/opt/android/android-18/toolchain/x86
+        export PATH=/opt/android/android-18/toolchain/x86/bin:$PATH
+
+1. Under the `jni` directory modify the `Application.mk` and change the value
+of the `APP_ABI` from "armeabi" to "x86".
+
+1. To build proj follow the instructions above.
+
+1. To build gdal follow the instructions above with a slight change to the 
+configure command to use the x86 architecture and to drop the "mthumb" compile
+flag:
+
+        LIBS="-lsupc++ -lstdc++"  ./configure --host=arm-linux-androideabi --prefix=`pwd`/../../ --without-gif --with-threads --with-ogr  --with-geos --with-libz=internal
+
+
+
 
 
 
