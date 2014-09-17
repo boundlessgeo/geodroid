@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.opengeo</groupId>
+  <groupId>com.boundlessgeo</groupId>
   <artifactId>geodroid</artifactId>
   <name>GeoDroid</name>
   <version>0-SNAPSHOT</version>
@@ -11,9 +11,9 @@
   
   <repositories>
     <repository>
-      <id>opengeo</id>
-      <name>OpenGeo Maven Repository</name>
-      <url>http://repo.opengeo.org/</url>
+      <id>boundless</id>
+      <name>Boundless Maven Repository</name>
+      <url>http://repo.boundlessgeo.com/main</url>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
